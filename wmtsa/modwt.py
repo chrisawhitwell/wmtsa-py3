@@ -153,7 +153,7 @@ def modwt(X, wtf='la8', nlevels='conservative', boundary='reflection', RetainVJ=
 
     # Do the MODWT.
     import pyximport; pyximport.install()
-    from modwtj import modwtj
+    from .modwtj import modwtj
     Vin = Xin; bw = np.ndarray((J0,2))*np.nan
     for j in range(J0):
         Wt_j, Vout = modwtj(Vin, j+1, ht, gt)
@@ -265,7 +265,7 @@ def imodwt_details(WJt):
     DJt   = np.zeros((J, N))
 
     import pyximport; pyximport.install()
-    from modwtj import imodwtj 
+    from .modwtj import imodwtj 
     for j in range(J0-1,-1,-1):
         Vin = zeroj
         Win = WJt[j,:]
@@ -351,7 +351,7 @@ def imodwt_smooth(VJt):
     Vin = VJt
 
     import pyximport; pyximport.install()
-    from modwtj import imodwtj
+    from .modwtj import imodwtj
     for j in range(J0-1,-1,-1):
         Vout = imodwtj(zeroj, Vin, j+1, ht, gt)
         Vin  = Vout
