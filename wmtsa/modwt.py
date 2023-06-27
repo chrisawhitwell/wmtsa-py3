@@ -480,7 +480,7 @@ def cir_shift(WJt, VJ0t, subtract_mean_VJ0t=True):
         print ('WARNING (wmtsa.modwt.cir_shift): Wavelet coefficients are already aligned')
         W = WJt
     else:
-        if WJt!=dwtArray([]):
+        if WJt.shape !=dwtArray([]).shape:
             W = np.ndarray(WJt.shape)*np.nan; bw = np.ndarray((J0,2))*np.nan
             for j in range(J0):
                 # shift wavelet coefficients
@@ -833,7 +833,7 @@ def wvar(WJt, ci_method='chi2eta3', estimator='biased', p=0.05):
             # we take only the coefficients up to N-1 (after that, they would be due to reflection)
             # This can only work with non rotated coefficients
             # since it considers BCs to be only at the beginning
-            wvar[j] = np.sum(WJt[j,(LJ[j]-1):N]**2) / np.float(MJ[j])
+            wvar[j] = np.sum(WJt[j,(LJ[j]-1):N]**2) / float(MJ[j])
 
         wvar = dwtArray(wvar, info=Watt)
     
@@ -847,7 +847,7 @@ def wvar(WJt, ci_method='chi2eta3', estimator='biased', p=0.05):
         # Use all coefficients.
         
         MJ = np.ones(J)*N
-        wvar = np.sum(WJt[:,:N]**2, axis=1) / np.float(N)
+        wvar = np.sum(WJt[:,:N]**2, axis=1) / float(N)
 
         wvar = dwtArray(wvar, info=Watt)
     
@@ -1344,7 +1344,7 @@ def choose_nlevels(choice, wtfname, N):
     L = wtf.L
 
     if choice=='conservative':
-        J0 = np.floor(np.log2( (np.float(N) / (L - 1)) - 1))
+        J0 = np.floor(np.log2( (float(N) / (L - 1)) - 1))
     elif choice in ('max', 'maximum'):
         J0 = np.floor(np.log2(N))
     elif ('supermax', 'supermaximum'):
