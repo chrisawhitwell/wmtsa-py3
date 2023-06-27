@@ -508,7 +508,7 @@ def cir_shift(WJt, VJ0t, subtract_mean_VJ0t=True):
     else:
         V = np.ndarray(VJ0t.shape)*np.nan; bv = np.ndarray((2,))*np.nan
         # shift scaling coefficients
-        if VJ0t!=dwtArray([]):
+        if VJ0t.shape !=dwtArray([]).shape:
             nuGj = advance_scaling_filter(wtfname, J0)
             if subtract_mean_VJ0t:
                 VJ0t = VJ0t - VJ0t.mean()
