@@ -22,7 +22,13 @@
 #    If not, see <http://www.gnu.org/licenses/>.                          #
 #                                                                         #
 ###########################################################################
+import sys
 
+if sys.platform.startswith('win'):
+    import pyMSVC
+    environment = pyMSVC.setup_environment()
+    print(environment)
+	
 from setuptools import setup,Extension, find_packages
 from Cython.Build import cythonize
 import numpy
