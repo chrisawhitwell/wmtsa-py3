@@ -58,7 +58,7 @@ def modwptjn(np.ndarray[DTYPE_t, ndim=2] Win, int j0, \
 
     for j in range(1,j0+1):
         Wout = np.ndarray((2**j,N), dtype=DTYPE)
-        for n in range(0,2**j,4):
+        for n in range(0,int(2**j),4):
             for t in range(N):
                 k = t
                 Wout[n,t] = gt[0] * Win[n/2,k]
@@ -67,7 +67,7 @@ def modwptjn(np.ndarray[DTYPE_t, ndim=2] Win, int j0, \
                     if (k < 0):
                         k += N
                     Wout[n,t] += gt[l] * Win[n/2,k]
-        for n in range(3,2**j,4):
+        for n in range(3,int(2**j),4):
             for t in range(N):
                 k = t
                 Wout[n,t] = gt[0] * Win[n/2,k]
@@ -76,7 +76,7 @@ def modwptjn(np.ndarray[DTYPE_t, ndim=2] Win, int j0, \
                     if (k < 0):
                         k += N
                     Wout[n,t] += gt[l] * Win[n/2,k]
-        for n in range(1,2**j,4):
+        for n in range(1,int(2**j),4):
             for t in range(N):
                 k = t
                 Wout[n,t] = ht[0] * Win[n/2,k]
@@ -85,7 +85,7 @@ def modwptjn(np.ndarray[DTYPE_t, ndim=2] Win, int j0, \
                     if (k < 0):
                         k += N
                     Wout[n,t] += ht[l] * Win[n/2,k]
-        for n in range(2,2**j,4):
+        for n in range(2,int(2**j),4):
             for t in range(N):
                 k = t
                 Wout[n,t] = ht[0] * Win[n/2,k]
