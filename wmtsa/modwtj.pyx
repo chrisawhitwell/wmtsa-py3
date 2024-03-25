@@ -61,7 +61,7 @@ def modwtj(np.ndarray[DTYPE_t, ndim=1] Vin, int j, \
         Wout[t] = ht[0] * Vin[k]
         Vout[t] = gt[0] * Vin[k]
         for n in range(1,L):
-            k -= 2**(j - 1)
+            k -= int(2**(j - 1))
             if (k < 0):
                 k = k%N
             Wout[t] += ht[n] * Vin[k]
@@ -86,7 +86,7 @@ def imodwtj(np.ndarray[DTYPE_t, ndim=1] Win, np.ndarray[DTYPE_t, ndim=1] Vin, \
         k = t
         Vout[t] = (ht[0] * Win[k]) + (gt[0] * Vin[k])
         for n in range(1,L):
-            k += 2**(j - 1)
+            k += int(2**(j - 1))
             if (k >= N):
                 k = k%N
             Vout[t] += (ht[n] * Win[k]) + (gt[n] * Vin[k])
