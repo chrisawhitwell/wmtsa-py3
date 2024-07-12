@@ -688,7 +688,7 @@ def running_wvar(WJt, Ns=3, overlap=False, ci_method='chi2eta3', p=0.05):
     
     J,N = WJt.shape
 
-    Ns = np.int(Ns)
+    Ns = np.int32(Ns)
     Ns2 = Ns/2
         
     if overlap:
@@ -1351,7 +1351,7 @@ def choose_nlevels(choice, wtfname, N):
         J0 = np.floor(np.log2(1.5 * N))
     else:
         raise ValueError('WMTSA:invalidNLevelsValue: available choices are {}'.format(available_choices))
-    return np.int(J0)
+    return np.int32(J0)
 
 def num_nonboundary_coef(wtfname, N, j):
     """
@@ -1386,7 +1386,7 @@ def num_nonboundary_coef(wtfname, N, j):
     
     L = wtf.L
     
-    N = np.int(N); j = np.int32(j)
+    N = np.int32(N); j = np.int32(j)
      
     # Calculate MJ
     Lj = equivalent_filter_width(L, j)

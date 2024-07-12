@@ -571,7 +571,7 @@ def acvs(X, estimator='biased', subtract_mean=True, method='fft', dim=-1):
                 for tau in range(N):
                     ACVS[:,tau] = np.sum(X[:,:N-tau]*X[:,tau:], axis=0)
     elif method=='fft':
-        Nft  = np.int(2**(np.ceil(np.log2(N))))
+        Nft  = np.int32(2**(np.ceil(np.log2(N))))
         Xhat = np.fft.fft(X, Nft, axis=dim)
         ACVS = np.real(np.fft.ifft(Xhat*np.conjugate(Xhat), axis=dim))
         ACVS = ACVS[:N]
