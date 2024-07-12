@@ -96,6 +96,51 @@ class dwtArray(np.ndarray):
         if obj is None: return
         self.info = getattr(obj, 'info', self.stdinfo)
 
+    def to_xarray(self,coord):
+        """
+        Convert to xarray.DataArray
+
+        Parameters
+        ----------
+        coord : dict
+            Dictionary of coordinate for original series
+        
+        Returns
+        -------
+        da : xarray.DataArray
+            DataArray of transformed data with dimensions (j,coord_name) where j is the level of decomposition of the MODWT
+
+        if dwtarray type is 'Wavelet' or 'Scaling' and RetainVJ is True:
+        
+        da_low : xarray.DataArray
+            DataArray of upper-bound of MODWT wavelet/scaling pass-band
+
+        da_high : xarray.DataArray
+            DataArray of lower-bound of MODWT wavelet/scaling pass-band
+
+        """
+        import xarray as xr
+
+        if len(coord) > 1:
+            raise ValueError('Only one coordinate can be passed to to_xarray')
+        coord_name = list(coord.keys())[0]
+        coord_val = list(coord.values())[0]
+
+        if type(coord_val[0]) == np.datetime64:
+            tau = np.diff(coord_val).mean().astype('timedelta64[ns]').astype('float')/1e9
+        else:
+            tau = np.diff(coord_val).mean()
+
+        if (self.info['Type'] == 'Wavelet')|(self.info['Type'] == 'Detail')|((self.info['Type'] == 'Scaling')&(self.info['RetainVJ'] == True))|(self.info['Type'] == 'Smooth')&(self.info['RetainVJ'] == True):
+            j = np.arange(1,self.info['J0']+1)
+            da = xr.DataArray(self, dims=['j',coord_name], coords={'j':j,coord_name:coord_val}, attrs=self.info)
+            da_low = xr.DataArray(tau*2**j, dims=['j'], coords={'j':j}, attrs={'tau':tau})
+            da_high = xr.DataArray(tau*2**(j+1), dims=['j'], coords={'j':j}, attrs={'tau':tau})
+            return da, da_low, da_high
+        elif (self.info['Type'] == 'Scaling')&(self.info['RetainVJ'] == False)|(self.info['Type'] == 'Smooth')&(self.info['RetainVJ'] == False):
+            da = xr.DataArray(self, dims=[coord_name], coords={coord_name:coord_val}, attrs=self.info)
+            return da
+
 class wtfilter(object):
     """
     wtfilter -- Class defining the wavelet filter, see __init__
