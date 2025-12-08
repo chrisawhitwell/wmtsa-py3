@@ -316,4 +316,4 @@ def advance_filter(wtfname, j):
     else:
         pass
     
-    return np.int16(np.around(nujn))
+    return np.int32(np.around(nujn))

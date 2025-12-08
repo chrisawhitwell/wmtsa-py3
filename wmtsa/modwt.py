@@ -276,7 +276,7 @@ def imodwt_details(WJt):
         DJt[j,:] = Vout
     
     # boundary values pag.199 WMTSA
-    bw = np.ndarray((J0,2), dtype=np.int16)*np.nan
+    bw = np.ndarray((J0,2), dtype=np.int32)*np.nan
     for j in range(J0):
         #Calculate circularly shifted wavelet coefficient boundary indices at jth level
         L_j     = equivalent_filter_width(L, j+1)
@@ -1154,7 +1154,7 @@ def advance_time_series_filter(wtfname):
     else:
         pass
     
-    return np.int16(np.around(nu))
+    return np.int32(np.around(nu))
 
 def advance_wavelet_filter(wtfname, j):
     """
